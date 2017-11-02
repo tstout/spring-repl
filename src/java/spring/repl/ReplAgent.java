@@ -68,7 +68,10 @@ public class ReplAgent {
         @Advice.OnMethodExit
         public static void intercept(@Origin Constructor m, @This Object inst) throws Exception {
             System.out.println("--------------------Intercepted Spring Context!---------");
-            Channel.pub(Topic.MAIN_BUS, new InterceptEvent(inst));
+            System.out.println(String.format("-----Context type is %s inst: %s",
+                    inst.getClass().getName(),
+                    inst));
+            Channel.pubObj(Topic.MAIN_BUS, new InterceptEvent(inst));
         }
     }
 

@@ -10,8 +10,7 @@
   (pub (mk-ch :evt-pub) :topic))
 
 (defn pub-evt [topic evt]
-  (go
-    (>! (mk-ch :evt-pub) {:topic topic :evt evt})))
+  (put! (mk-ch :evt-pub) {:topic topic :evt evt}))
 
 (defn sub-evt [topic ch-name]
   {:pre [(every? keyword? [topic ch-name])]}

@@ -14,9 +14,18 @@
 
 (defn error-listener []
   "Listen for error events"
-  (let [ch (sub-evt :error-log :info-ch)]
+  (let [ch (sub-evt :error-log :err-ch)]
     (go-loop
       []
       (let [info (<! ch)]
         (log/error (-> info :evt :message)))
       (recur))))
+
+(defn main-listener []
+  ""
+  (let [ch (sub-evt :main-bus :main-ch)]
+    (go-loop
+      []
+      (let [info (<! ch)]
+        (log/info "main bus event")
+      (recur)))))

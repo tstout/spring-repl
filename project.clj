@@ -13,7 +13,10 @@
   :min-lein-version "2.0.0"
   :source-paths ["src/clojure"]
   :java-source-paths ["src/java"]
-  :profiles {:uberjar {:aot :all}}
+  :profiles {:uberjar {:aot :all}
+             :dev     {:source-paths ["dev" "src/java"]
+                       :dependencies [[org.clojure/tools.namespace "0.2.11"]
+                                      [org.clojure/java.classpath "0.2.3"]]}}
   :manifest {"Premain-Class" "spring.repl.ReplAgent"
              "Agent-Class"   "spring.repl.ReplAgent"
              "Main-Class"    "spring.repl.ReplAgent"})

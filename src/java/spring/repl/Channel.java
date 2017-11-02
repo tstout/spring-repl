@@ -20,9 +20,23 @@ public class Channel {
         pubEvt = Clojure.var("spring-repl.pubsub", "pub-evt");
     }
 
-    public static void pub(Topic t, Object javaBean) {
+    /**
+     * Works for case where obj is comprised of primitive types.
+     * @param t
+     * @param obj
+     */
+    public static void pub(Topic t, Object obj) {
         instance.pubEvt.invoke(
                 t.keyword,
-                instance.fromJava.invoke(javaBean));
+                instance.fromJava.invoke(obj));
+    }
+
+    /**
+     * Pass raw java object to clojure code.
+     * @param t
+     * @param obj
+     */
+    public static void pubObj(Topic t, Object obj) {
+        instance.pubEvt.invoke(t.keyword, obj);
     }
 }
