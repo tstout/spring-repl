@@ -36,7 +36,7 @@ For convenience, you might want to require the namespace and give it a shorter a
 ```
 In the future I will likely make this require automatic.
 
-##TODO
+## TODO
 The spring-specific functions provided are minimal at the moment. I will likely add more over time.
 I have exclusively been using this agent as a vehicle for injecting clojure code into crufty legacy
 java code for testing purposes. Specifically, I have used this to experiment with writing integration tests for 
