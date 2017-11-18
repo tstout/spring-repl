@@ -2,6 +2,7 @@ package spring.repl;
 
 import clojure.java.api.Clojure;
 import clojure.lang.IFn;
+import clojure.lang.Keyword;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.asm.Advice.Origin;
@@ -14,19 +15,17 @@ import org.springframework.context.ApplicationContext;
 
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.bytebuddy.matcher.ElementMatchers.*;
+import static spring.repl.ContextKey.APP_CONTEXT;
+import static spring.repl.Topic.MAIN_BUS;
 
 public class ReplAgent {
 
     public static void main(String[] args) {
         bootStrap();
-        System.out.println("bootstrap finished");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private static void bootStrap() {
@@ -64,14 +63,12 @@ public class ReplAgent {
     }
 
     public static class ConstructorInterceptor {
-
         @Advice.OnMethodExit
         public static void intercept(@Origin Constructor m, @This Object inst) throws Exception {
-            System.out.println("--------------------Intercepted Spring Context!---------");
-            System.out.println(String.format("-----Context type is %s inst: %s",
-                    inst.getClass().getName(),
-                    inst));
-            Channel.pubObj(Topic.MAIN_BUS, new InterceptEvent(inst));
+            Map<Keyword, ApplicationContext> ctx = new HashMap<>();
+            ctx.put(APP_CONTEXT.keyword, (ApplicationContext) inst);
+
+            Channel.pubObj(MAIN_BUS, ctx);
         }
     }
 

@@ -9,6 +9,7 @@
                  [net.bytebuddy/byte-buddy "1.7.5"]
                  [org.clojure/tools.logging "0.3.1"]
                  [ch.qos.logback/logback-classic "1.2.3"]
+                 [org.clojure/tools.nrepl "0.2.12"]
                  [org.springframework/spring-context "4.2.6.RELEASE"]]
   :min-lein-version "2.0.0"
   :source-paths ["src/clojure"]
