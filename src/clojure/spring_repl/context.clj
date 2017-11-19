@@ -43,7 +43,7 @@
     r/reflect))
 
 (defn bean-methods
-  "Filter the verbose clojure.reflect to only include methods information"
+  "Filter the verbose clojure.reflect to only include method information"
   [name]
   (->>
     name
