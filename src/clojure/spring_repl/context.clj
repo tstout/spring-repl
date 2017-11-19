@@ -1,6 +1,7 @@
 (ns spring-repl.context
   (:require [clojure.tools.logging :as log]
-            [clojure.reflect :as r])
+            [clojure.reflect :as r]
+            [clojure.pprint :refer [pprint]])
   (:import (org.springframework.context ApplicationContext)))
 
 (def context (atom {}))
@@ -12,25 +13,39 @@
 (defn ^ApplicationContext get-ctx []
   (@context :spring-ctx))
 
-(defn beans []
-  (->
-    get-ctx
-    (.getBeanDefinitionNames)
-    seq))
-
-(defn get-bean [bean-name]
+(defn beans
+  "A sorted list of all bean names currently defined in the spring context"
+  []
   (->
     (get-ctx)
-    (.getBean bean-name)))
+    (.getBeanDefinitionNames)
+    seq
+    sort))
 
-(defn bean-info [bean-name]
+(defn ls-beans
+  "list all bean names in the context"
+  []
+  (pprint (beans)))
+
+(defn bean-named
+  "Find bean by name"
+  [name]
   (->
-    bean-name
-    get-bean
+    (get-ctx)
+    (.getBean name)))
+
+(defn bean-info
+  "Verbose bean information obtained from clojure.reflect"
+  [name]
+  (->
+    name
+    bean-named
     r/reflect))
 
-(defn bean-methods [bean-name]
+(defn bean-methods
+  "Filter the verbose clojure.reflect to only include methods information"
+  [name]
   (->>
-    bean-name
+    name
     bean-info
-    (filter #(:name))))
+    (filter :members)))
