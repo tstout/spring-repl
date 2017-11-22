@@ -7,15 +7,17 @@ spring, this agent can still be useful to create an nrepl server in an existing 
 modifying any code or dependencies of the application.
 
 ## Usage
+Create the agent jar via:
+```
+lein uberjar
+```
+
 Add this option to your java application's startup args:
 
 ```
 -javaagent:/path/to/this/jar
 ```
-Create the jar via:
-```
-lein uberjar
-```
+
 
 At startup, this agent will create an nrepl server on port 8000. You can then use any nrepl client to connect.
 In addition to starting an nrepl server, the agent detects the creation of a Spring ApplicationContext, and maintains
