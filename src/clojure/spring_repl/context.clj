@@ -48,4 +48,4 @@
   (->>
     name
     bean-info
-    (filter :members)))
+    :members))
