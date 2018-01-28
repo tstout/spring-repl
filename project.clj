@@ -1,4 +1,4 @@
-(defproject spring-repl "0.1.0-SNAPSHOT"
+(defproject com.github.tstout/spring-repl "0.1.0"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -10,7 +10,8 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [ch.qos.logback/logback-classic "1.2.3"]
                  [org.clojure/tools.nrepl "0.2.12"]
-                 [org.springframework/spring-context "4.2.6.RELEASE"]]
+                 [org.springframework/spring-context "4.2.6.RELEASE"]
+                 [com.cemerick/pomegranate "1.0.0"]]
   :min-lein-version "2.0.0"
   :source-paths ["src/clojure"]
   :java-source-paths ["src/java"]
