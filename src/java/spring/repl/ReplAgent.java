@@ -9,9 +9,7 @@ import net.bytebuddy.asm.Advice.Origin;
 import net.bytebuddy.asm.Advice.This;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
-import net.bytebuddy.matcher.ElementMatchers;
 import net.bytebuddy.utility.JavaModule;
-import org.springframework.context.ApplicationContext;
 
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Constructor;
@@ -19,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.bytebuddy.matcher.ElementMatchers.*;
-import static spring.repl.ContextKey.APP_CONTEXT;
-import static spring.repl.Topic.MAIN_BUS;
+import static spring.repl.ContextKey.*;
+import static spring.repl.Topic.*;
 
 public class ReplAgent {
 
@@ -46,7 +44,7 @@ public class ReplAgent {
                             .or(nameStartsWith("sun.reflect"))
                             .or(nameStartsWith("org.apache.log4j"))
                             .or(nameStartsWith("sun.misc")))
-                    .type(ElementMatchers.isSubTypeOf(ApplicationContext.class))
+                    .type(hasSuperType(named("org.springframework.context.ApplicationContext")))
                     .transform((builder, typeDescription, classLoader, module) -> builder
                             .visit(Advice
                                     .to(ConstructorInterceptor.class)
@@ -65,8 +63,8 @@ public class ReplAgent {
     public static class ConstructorInterceptor {
         @Advice.OnMethodExit
         public static void intercept(@Origin Constructor m, @This Object inst) throws Exception {
-            Map<Keyword, ApplicationContext> ctx = new HashMap<>();
-            ctx.put(APP_CONTEXT.keyword, (ApplicationContext) inst);
+            Map<Keyword, Object> ctx = new HashMap<>();
+            ctx.put(APP_CONTEXT.keyword, inst);
 
             Channel.pubObj(MAIN_BUS, ctx);
         }

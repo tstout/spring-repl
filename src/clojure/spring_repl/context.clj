@@ -1,8 +1,7 @@
 (ns spring-repl.context
   (:require [clojure.tools.logging :as log]
             [clojure.reflect :as r]
-            [clojure.pprint :refer [pprint]])
-  (:import (org.springframework.context ApplicationContext)))
+            [clojure.pprint :refer [pprint]]))
 
 (def context (atom {}))
 
@@ -10,7 +9,7 @@
   (log/info "spring-repl: context initialized")
   (swap! context assoc :spring-ctx c))
 
-(defn ^ApplicationContext get-ctx []
+(defn get-ctx []
   (@context :spring-ctx))
 
 (defn beans
