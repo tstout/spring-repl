@@ -1,6 +1,6 @@
 (ns spring-repl.nrepl
   (:require
-    [clojure.tools.nrepl.server :refer [start-server stop-server]]
+    [nrepl.server :refer [start-server stop-server]]
     [clojure.tools.logging :as log]))
 
 (def repl-server (atom nil))

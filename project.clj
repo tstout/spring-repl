@@ -9,7 +9,7 @@
                  [net.bytebuddy/byte-buddy "1.7.5"]
                  [org.clojure/tools.logging "0.3.1"]
                  [ch.qos.logback/logback-classic "1.2.3"]
-                 [org.clojure/tools.nrepl "0.2.12"]
+                 [nrepl "0.6.0"]
                  [com.cemerick/pomegranate "1.0.0"]]
   :min-lein-version "2.0.0"
   :source-paths ["src/clojure"]
