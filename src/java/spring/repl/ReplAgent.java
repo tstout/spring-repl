@@ -31,27 +31,23 @@ public class ReplAgent {
         require.invoke(Clojure.read("spring-repl.bootstrap"));
         IFn boot = Clojure.var("spring-repl.bootstrap", "boot");
         boot.invoke();
-        Channel.pub(Topic.INFO, new LogMessage("Bootstrap complete"));
+        Channel.pub(Topic.INFO, new LogMessage("Bootstrap of spring-repl complete"));
     }
 
     public static void premain(String arguments, Instrumentation instrumentation) {
         try {
             bootStrap();
 
-            new AgentBuilder.Default()
-                    .with(new DebugListener())
-                    .ignore(nameStartsWith("net.bytebuddy.")
-                            .or(nameStartsWith("sun.reflect"))
-                            .or(nameStartsWith("org.apache.log4j"))
-                            .or(nameStartsWith("sun.misc")))
+            new AgentBuilder.Default().with(new DebugListener())
+                    .ignore(nameStartsWith("net.bytebuddy.").or(nameStartsWith("sun.reflect"))
+                            .or(nameStartsWith("org.apache.log4j")).or(nameStartsWith("sun.misc"))
+                            .or(nameStartsWith("org.codehaus.groovy")))
                     .type(hasSuperType(named("org.springframework.context.ApplicationContext")))
                     .transform((builder, typeDescription, classLoader, module) -> builder
-                            .visit(Advice
-                                    .to(ConstructorInterceptor.class)
-                                    .on(isConstructor())))
+                            .visit(Advice.to(ConstructorInterceptor.class).on(isConstructor())))
                     .installOn(instrumentation);
         } catch (Throwable t) {
-            System.out.println(String.format("Error %s", t.getMessage()));
+            Channel.pub(Topic.ERROR, new LogMessage(t.getMessage()));
         }
     }
 
@@ -73,35 +69,42 @@ public class ReplAgent {
     static class DebugListener implements AgentBuilder.Listener {
 
         @Override
-        public void onDiscovery(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
+        public void onDiscovery(
+                String typeName,
+                ClassLoader classLoader,
+                JavaModule module,
+                boolean loaded) {
         }
 
         @Override
-        public void onTransformation(TypeDescription typeDescription,
-                                     ClassLoader classLoader,
-                                     JavaModule module,
-                                     boolean loaded,
-                                     DynamicType dynamicType) {
+        public void onTransformation(
+                TypeDescription typeDescription,
+                ClassLoader classLoader,
+                JavaModule module,
+                boolean loaded, DynamicType dynamicType) {
         }
 
         @Override
-        public void onIgnored(TypeDescription typeDescription,
-                              ClassLoader classLoader,
-                              JavaModule module,
-                              boolean loaded) {
+        public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module,
+                boolean loaded) {
         }
 
         @Override
-        public void onError(String typeName,
-                            ClassLoader classLoader,
-                            JavaModule module,
-                            boolean loaded,
-                            Throwable throwable) {
+        public void onError(
+                String typeName,
+                ClassLoader classLoader,
+                JavaModule module,
+                boolean loaded,
+                Throwable throwable) {
             Channel.pub(Topic.ERROR, new LogMessage(throwable.getMessage()));
         }
 
         @Override
-        public void onComplete(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
+        public void onComplete(
+                String typeName,
+                ClassLoader classLoader,
+                JavaModule module,
+                boolean loaded) {
         }
     }
 }
