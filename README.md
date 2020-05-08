@@ -49,9 +49,12 @@ Keep in mind that you can also import any java classes available on the classpat
 ## Spring Boot In an IDE
 
 Add this to your build.gradle for running in your IDE:
+
+```
 bootRun {
 jvmArgs = ["-javaagent:/your/path/to/target/spring-repl-1.0.0-standalone.jar"]
 }
+```
 
 If you are running a spring boot app outside an IDE, you should not need any special config
 other than the -javaagent JVM option.
