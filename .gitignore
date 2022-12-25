@@ -10,3 +10,7 @@ pom.xml.asc
 .hgignore
 .hg/
 *.iml
+.clj-kondo
+.idea
+.rebel_readline_history
+.lsp/*

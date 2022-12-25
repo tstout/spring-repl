@@ -1,17 +1,19 @@
 (defproject com.github.tstout/spring-repl "1.0.0"
 
-  :scm {:name "git" :url "https://github.com/nrepl/piggieback"}
+  :scm {:name "git" :url "https://github.com/tstout/spring-repl"}
   :description "java agent for injecting a clojure repl"
   :url "https://github.com/tstout/spring-repl"
-  :license {:name "Eclipse Public License"
-            :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :pom-addition [:developers [:developer {:id "tstout"}
+  :license {:name "The MIT License"
+            :url  "http://opensource.org/licenses/MIT"}
+  :pom-addition [:developers [:developer
+                              [:id "todd.tstout@gmail.com"]
                               [:name "Todd Stout"]
                               [:url "https://github.com/tstout"]]]
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/core.async "0.7.559"]
                  [org.clojure/java.data "0.1.1"]
                  [net.bytebuddy/byte-buddy "1.10.7"]
+                 [lein-jdk-tools "0.1.1"]
                  [nrepl "0.6.0"]]
   :min-lein-version "2.0.0"
   :source-paths ["src/clojure"]
@@ -24,16 +26,22 @@
              "Agent-Class"   "spring.repl.ReplAgent"
              "Main-Class"    "spring.repl.ReplAgent"}
 
-  :plugins [[lein-javadoc "0.3.0"]]
+  :plugins [[lein-javadoc "0.3.0"]
+            [lein-release "1.0.9"]
+            [lein-jdk-tools "0.1.1"]]
 
-  :javadoc-opts {:package-names ["spring.repl"]
-                 :output-dir "target/javadoc/out"
-                 :additional-args ["-windowtitle" "Spring REPL"
-                                   "-quiet"
-                                   "-Xdoclint:none"
-                                   "-link" "https://docs.oracle.com/javase/8/docs/api/"
-                                   "-link" "https://www.javadoc.io/static/org.clojure/clojure/1.10.1"]}
+  ;; :javadoc-opts {:package-names ["spring.repl"]
+  ;;                :output-dir "target/javadoc/out"
+  ;;                :additional-args ["-windowtitle" "Spring REPL"
+  ;;                                  "-quiet"
+  ;;                                  "-Xdoclint:none"
+  ;;                                  "-link" "https://docs.oracle.com/javase/8/docs/api/"
+  ;;                                  "-link" "https://www.javadoc.io/static/org.clojure/clojure/1.10.1"]}
 
+  
+  ;; Before running lein deploy, execute 
+  ;; javadoc spring.repl @javadoc-opts.txt
+  
   :classifiers {:sources {:prep-tasks ^:replace []}
                 :javadoc {:prep-tasks ^:replace ["javadoc"]
                           :omit-source true

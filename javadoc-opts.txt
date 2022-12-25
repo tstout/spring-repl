@@ -1,0 +1,7 @@
+-windowtitle "Spring REPL"
+-Xdoclint:none
+-link "https://docs.oracle.com/javase/11/docs/api/"
+-link "https://www.javadoc.io/static/org.clojure/clojure/1.10.1"
+-d "target/javadoc/out"
+--source-path "src/java"
+-cp "target/classes:/Users/tstout/.m2/repository/org/clojure/clojure/1.10.1/clojure-1.10.1.jar:/Users/tstout/.m2/repository/net/bytebuddy/byte-buddy/1.10.7/byte-buddy-1.10.7.jar:/Users/tstout/.m2/repository/net/bytebuddy/byte-buddy-agent/1.10.5/byte-buddy-agent-1.10.5.jar"
