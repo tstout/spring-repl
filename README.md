@@ -20,13 +20,6 @@ Add this option to your java application's startup args:
 -javaagent:/your/path/to/target/spring-repl-1.0.0-standalone.jar
 ```
 
-If you don't want to build the jar, you can download it from maven central. The coordinates are:
-
-```
-[com.github.tstout/spring-repl "1.0.0"]
-```
-
-
 At startup, this agent will create an nrepl server on port 8000. You can then use any nrepl client to connect.
 In addition to starting an nrepl server, the agent detects the creation of a Spring ApplicationContext, and maintains
 a clojure var referring to it. This allows clojure code to access any beans in the application context. However, even if your application/service is not using spring, the repl has full access to anything on the classpath of the JVM you are running.
